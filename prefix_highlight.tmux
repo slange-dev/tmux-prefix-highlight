@@ -67,8 +67,18 @@ main() {
     local -r prefix_highlight="$(format_style "fg=$fg_color,bg=$bg_color")"
     local -r prefix_mode="$prefix_highlight$output_prefix$prefix_prompt$output_suffix"
 
+    # add support for all (known) pane modes
+    local -r pane_mode="#{s/-mode//:#{pane_mode}}"
+    local -r clock_mode_sub="#{#{?#{==:$pane_mode,clock},Clock,#{pane_mode} is not yet supported; please report}}"
+    local -r options_mode_sub="#{#{?#{==:$pane_mode,Options},Options,$clock_mode_sub}}"
+    local -r client_mode_sub="#{#{?#{==:$pane_mode,Client},Client,$options_mode_sub}}"
+    local -r buffer_mode_sub="#{#{?#{==:$pane_mode,Buffer},Buffer,$client_mode_sub}}"
+    local -r tree_mode_sub="#{#{?#{==:$pane_mode,Tree},Tree,$buffer_mode_sub}}"
+    local -r view_mode_sub="#{#{?#{==:$pane_mode,View},View,$tree_mode_sub}}"
+    local -r copy_mode_sub="#{#{?#{==:$pane_mode,Copy},$copy_prompt,$view_mode_sub}}"
+
     local -r copy_highlight="$(format_style "${copy_attr:+default,$copy_attr}")"
-    local -r copy_mode="$copy_highlight$output_prefix$copy_prompt$output_suffix"
+    local -r copy_mode="$copy_highlight$output_prefix$copy_mode_sub$output_suffix"
 
     local -r sync_highlight="$(format_style "${sync_attr:+default,$sync_attr}")"
     local -r sync_mode="$sync_highlight$output_prefix$sync_prompt$output_suffix"
