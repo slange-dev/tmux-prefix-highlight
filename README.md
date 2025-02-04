@@ -23,6 +23,17 @@ Prefix off:
 Prefix on:
 ![prefix_on](screenshots/prefix_on.png)
 
+### Supported modes
+
+- copy-mode (copy-mode)
+- sync-mode (sync-mode)
+- view-mode (list-keys, etc.)
+- tree-mode (choose-tree)
+- client-mode (choose-client)
+- buffer-mode (choose-buffer)
+- options-mode (customize-mode)
+- clock-mode (clock-mode)
+
 ### Usage
 
 Just add `#{prefix_highlight}` to your left/right status bar.
